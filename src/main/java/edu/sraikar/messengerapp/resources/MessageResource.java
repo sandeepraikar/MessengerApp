@@ -1,4 +1,4 @@
-package edu.sraikar.messagengerapp.resources;
+package edu.sraikar.messengerapp.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
