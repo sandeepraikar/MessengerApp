@@ -11,11 +11,11 @@ public class DatabaseClass {
 	private static Map<Long,Message> messages = new HashMap<>();
 	private static Map<Long,Profile> profiles = new HashMap<>();
 	
-	public Map<Long,Message> getMessages(){
+	public static Map<Long,Message> getMessages(){
 		return messages;
 	}
 	
-	public Map<Long,Profile> getProfile(){
+	public static Map<Long,Profile> getProfile(){
 		return profiles;
 	}
 	
