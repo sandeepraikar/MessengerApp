@@ -29,10 +29,17 @@ public class MessageResource {
 		return service.getAllMessages();
 	}
 	
-	@GET
+	/*@GET
 	@Path("/{messageId}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String test(@PathParam("messageId") String messageId){
 		return "Got Path param :"+messageId;
+	}*/
+	
+	@GET
+	@Path("/{messageId}")
+	@Produces(MediaType.APPLICATION_XML)
+	public Message getMessage(@PathParam("messageId") long id){
+		return service.getMessage(id);
 	}
 }
