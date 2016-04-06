@@ -16,6 +16,8 @@ import edu.sraikar.messengerapp.model.Message;
 import edu.sraikar.messengerapp.service.MessageService;
 
 @Path("/messages")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class MessageResource {
 
 	MessageService service = new MessageService();
@@ -28,7 +30,8 @@ public class MessageResource {
 	}*/
 	
 	@GET      // This is to specify the relevant HTTP method!!
-	@Produces(MediaType.APPLICATION_JSON) //Sending the response as XML
+	//@Produces and @Consumes has now been added to class level
+	//@Produces(MediaType.APPLICATION_JSON) //Sending the response as XML
 	public List<Message> getMessages(){
 		return service.getAllMessages();
 	}
@@ -42,7 +45,7 @@ public class MessageResource {
 	
 	@GET
 	@Path("/{messageId}")
-	@Produces(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") long id){
 		return service.getMessage(id);
 	}
@@ -57,8 +60,8 @@ public class MessageResource {
 		Content-Type    application/json
 	 */
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON) //This indicates that this post request consumes content of json format
-	@Produces(MediaType.APPLICATION_JSON)
+	//@Consumes(MediaType.APPLICATION_JSON) //This indicates that this post request consumes content of json format
+	//@Produces(MediaType.APPLICATION_JSON)
 	public Message addMessage(Message message) //Here jersey is gonna automatically convert the json object passed to Message instance
 	{
 		return service.addMessage(message);
@@ -67,8 +70,8 @@ public class MessageResource {
 	//Update operation
 	@PUT
 	@Path("/{messageId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	//@Consumes(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
 	public Message updateMessage(@PathParam("messageId") long id, Message message){
 		message.setId(id);
 		return service.udateMessage(message);
