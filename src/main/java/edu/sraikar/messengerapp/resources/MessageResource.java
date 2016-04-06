@@ -24,7 +24,7 @@ public class MessageResource {
 	}*/
 	
 	@GET      // This is to specify the relevant HTTP method!!
-	@Produces(MediaType.APPLICATION_XML) //Sending the response as XML
+	@Produces(MediaType.APPLICATION_JSON) //Sending the response as XML
 	public List<Message> getMessages(){
 		return service.getAllMessages();
 	}
@@ -38,7 +38,7 @@ public class MessageResource {
 	
 	@GET
 	@Path("/{messageId}")
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") long id){
 		return service.getMessage(id);
 	}
