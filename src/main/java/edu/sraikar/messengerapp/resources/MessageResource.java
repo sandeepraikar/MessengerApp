@@ -59,6 +59,7 @@ public class MessageResource {
 		Header_type     header_value
 		Content-Type    application/json
 	 */
+	
 	@POST
 	//@Consumes(MediaType.APPLICATION_JSON) //This indicates that this post request consumes content of json format
 	//@Produces(MediaType.APPLICATION_JSON)
