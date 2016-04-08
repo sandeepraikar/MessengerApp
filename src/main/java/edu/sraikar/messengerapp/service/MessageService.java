@@ -1,6 +1,7 @@
 package edu.sraikar.messengerapp.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,24 @@ public class MessageService {
 	
 	public Message removeMessage(long id){
 		return messages.remove(id);
+	}
+	
+	public List<Message> getAllMessagesForYear(int year){
+		List<Message> messagesForYear = new ArrayList<>();
+		Calendar cal = Calendar.getInstance();
+		for (Message message : messages.values()) {
+			cal.setTime(message.getCreated());
+			if(cal.get(Calendar.YEAR)==year){
+				messagesForYear.add(message);
+			}
+		}
+		return messagesForYear;
+	}
+	
+	public List<Message> getAllMessagesPaginated(int start,int size){
+		List<Message> paginatedList = new ArrayList<>(messages.values());
+		if(start+size>paginatedList.size()) return new ArrayList<Message>();
+		return paginatedList.subList(start, size);
 	}
 	
 	

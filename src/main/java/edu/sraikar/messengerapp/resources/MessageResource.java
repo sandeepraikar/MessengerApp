@@ -10,6 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import edu.sraikar.messengerapp.model.Message;
@@ -29,12 +30,28 @@ public class MessageResource {
 		return "HelloWorld";
 	}*/
 	
-	@GET      // This is to specify the relevant HTTP method!!
+	//@GET      // This is to specify the relevant HTTP method!!
 	//@Produces and @Consumes has now been added to class level
 	//@Produces(MediaType.APPLICATION_JSON) //Sending the response as XML
-	public List<Message> getMessages(){
+	//public List<Message> getMessages(){
+	//	return service.getAllMessages();
+	//}
+	
+	
+	//New method for getMessages with query params year, start, size
+	@GET
+	public List<Message> getMessages(@QueryParam("year") int year,
+									 @QueryParam("start") int start,
+									 @QueryParam("size") int size) {
+		if (year > 0) {
+			return service.getAllMessagesForYear(year);
+		}
+		if (start >= 0 && size > 0) {
+			return service.getAllMessagesPaginated(start, size);
+		}
 		return service.getAllMessages();
 	}
+	
 	
 	/*@GET
 	@Path("/{messageId}")
