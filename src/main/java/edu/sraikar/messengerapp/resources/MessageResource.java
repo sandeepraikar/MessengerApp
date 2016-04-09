@@ -2,6 +2,7 @@ package edu.sraikar.messengerapp.resources;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import edu.sraikar.messengerapp.model.Message;
+import edu.sraikar.messengerapp.resources.bean.MessageFilterBean;
 import edu.sraikar.messengerapp.service.MessageService;
 
 @Path("/messages")
@@ -39,7 +41,7 @@ public class MessageResource {
 	
 	
 	//New method for getMessages with query params year, start, size
-	@GET
+	/*	@GET
 	public List<Message> getMessages(@QueryParam("year") int year,
 									 @QueryParam("start") int start,
 									 @QueryParam("size") int size) {
@@ -48,6 +50,19 @@ public class MessageResource {
 		}
 		if (start >= 0 && size > 0) {
 			return service.getAllMessagesPaginated(start, size);
+		}
+		return service.getAllMessages();
+	}
+	*/
+
+	//New method for getMessage to illustrate BeanParam annotations
+	@GET
+	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean) {
+		if (filterBean.getYear() > 0) {
+			return service.getAllMessagesForYear(filterBean.getYear());
+		}
+		if (filterBean.getStart() >= 0 && filterBean.getSize() > 0) {
+			return service.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
 		}
 		return service.getAllMessages();
 	}
