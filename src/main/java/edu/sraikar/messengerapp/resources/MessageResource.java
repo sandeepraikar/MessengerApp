@@ -116,4 +116,10 @@ public class MessageResource {
 	public void deleteMessage(@PathParam("messageId") long id){
 		service.removeMessage(id);
 	}
+	
+	//Delegating call s to comment resource
+	@Path("/{messageId}/comments")
+	public CommentResource getCommentResource(){
+		return new CommentResource();
+	}
 }
