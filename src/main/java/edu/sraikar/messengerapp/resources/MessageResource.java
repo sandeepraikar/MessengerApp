@@ -1,5 +1,6 @@
 package edu.sraikar.messengerapp.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -11,10 +12,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+
+import org.glassfish.jersey.server.Uri;
 
 import edu.sraikar.messengerapp.model.Message;
 import edu.sraikar.messengerapp.resources.bean.MessageFilterBean;
@@ -107,10 +110,20 @@ public class MessageResource {
 	*/
 	
 	@POST
-	public Response addMessage(Message message){
-		return Response.status(Status.CREATED)
-				       .entity(message)
-				       .build();
+	public Response addMessage(Message message, @Context UriInfo uriInfo){
+		
+		
+		//This is version 1.0
+		/*return Response.status(Status.CREATED) //sets the status code to 201
+				       .entity(message) //pass the object
+				       .build();*/
+		
+		Message newMessage = service.addMessage(message);
+		String id = String.valueOf(newMessage.getId());
+		URI uri = uriInfo.getAbsolutePathBuilder().path(id).build();
+		return Response.created(uri) //Best practice as it sets the status code to 201 and also the location header!! this is awesome! 
+			       .entity(message)
+			       .build();
 	}
 	
 	
