@@ -109,6 +109,7 @@ public class MessageResource {
 	
 	*/
 	
+	//This adds the message and also sends the status code and the location headerss
 	@POST
 	public Response addMessage(Message message, @Context UriInfo uriInfo){
 		
