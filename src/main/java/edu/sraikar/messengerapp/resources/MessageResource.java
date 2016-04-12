@@ -13,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import edu.sraikar.messengerapp.model.Message;
 import edu.sraikar.messengerapp.resources.bean.MessageFilterBean;
@@ -92,6 +94,8 @@ public class MessageResource {
 		Content-Type    application/json
 	 */
 	
+	/*
+	 * Check below for updated addMessage method!!!
 	@POST
 	//@Consumes(MediaType.APPLICATION_JSON) //This indicates that this post request consumes content of json format
 	//@Produces(MediaType.APPLICATION_JSON)
@@ -99,6 +103,16 @@ public class MessageResource {
 	{
 		return service.addMessage(message);
 	}
+	
+	*/
+	
+	@POST
+	public Response addMessage(Message message){
+		return Response.status(Status.CREATED)
+				       .entity(message)
+				       .build();
+	}
+	
 	
 	//Update operation
 	@PUT
