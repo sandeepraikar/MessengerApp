@@ -7,7 +7,8 @@ import javax.ws.rs.ext.Provider;
 
 import edu.sraikar.messengerapp.model.ErrorMessage;
 
-@Provider
+//@Provider
+//Provider annotation is disabled for now to test WebApplicationException and NotFoundException froms the service class
 public class GenericExceptionMapper implements ExceptionMapper<Throwable>{
 
 	@Override
