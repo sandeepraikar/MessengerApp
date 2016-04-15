@@ -17,8 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.glassfish.jersey.server.Uri;
-
 import edu.sraikar.messengerapp.model.Message;
 import edu.sraikar.messengerapp.resources.bean.MessageFilterBean;
 import edu.sraikar.messengerapp.service.MessageService;
@@ -83,8 +81,16 @@ public class MessageResource {
 	@GET
 	@Path("/{messageId}")
 	//@Produces(MediaType.APPLICATION_JSON)
-	public Message getMessage(@PathParam("messageId") long id){
-		return service.getMessage(id);
+	public Message getMessage(@PathParam("messageId") long id, @Context UriInfo uriInfo){
+		Message message = service.getMessage(id);
+		String uri = uriInfo.getBaseUriBuilder()
+						.path(MessageResource.class) //This will be @Path annotation value at class level!!
+						.path(Long.toString(message.getId()))
+						.build()
+						.toString();					
+						
+		message.addLink(uri, "self");;				
+		return message;
 	}
 	
 	//Creating a POST request
