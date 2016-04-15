@@ -83,14 +83,18 @@ public class MessageResource {
 	//@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") long id, @Context UriInfo uriInfo){
 		Message message = service.getMessage(id);
+		message.addLink(getUriForSelf(uriInfo, message), "self");;				
+		return message;
+	}
+
+
+	private String getUriForSelf(UriInfo uriInfo, Message message) {
 		String uri = uriInfo.getBaseUriBuilder()
 						.path(MessageResource.class) //This will be @Path annotation value at class level!!
 						.path(Long.toString(message.getId()))
 						.build()
-						.toString();					
-						
-		message.addLink(uri, "self");;				
-		return message;
+						.toString();
+		return uri;
 	}
 	
 	//Creating a POST request
