@@ -83,8 +83,18 @@ public class MessageResource {
 	//@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") long id, @Context UriInfo uriInfo){
 		Message message = service.getMessage(id);
-		message.addLink(getUriForSelf(uriInfo, message), "self");;				
+		message.addLink(getUriForSelf(uriInfo, message), "self");
+		message.addLink(getUriForProfile(uriInfo, message), "profile");
 		return message;
+	}
+
+
+	private String getUriForProfile(UriInfo uriInfo, Message message) {
+		URI uri = uriInfo.getBaseUriBuilder()
+						 .path(ProfileResource.class)
+						 .path(message.getAuthor())
+						 .build();
+		return uri.toString();
 	}
 
 
