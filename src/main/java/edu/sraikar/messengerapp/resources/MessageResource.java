@@ -85,23 +85,35 @@ public class MessageResource {
 		Message message = service.getMessage(id);
 		message.addLink(getUriForSelf(uriInfo, message), "self");
 		message.addLink(getUriForProfile(uriInfo, message), "profile");
+		message.addLink(getUriForComments(uriInfo, message), "profile");
 		return message;
 	}
 
 
+	private String getUriForComments(UriInfo uriInfo, Message message) {
+		URI uri = uriInfo.getBaseUriBuilder() // -> http://localhost:8080/MessengerApp/webapi/
+				 .path(MessageResource.class) // -> messages
+				 .path(MessageResource.class, "getCommentResource") //-> {messageId}/Comments
+				 .path(CommentResource.class)
+				 .resolveTemplate("messageId", message.getId()) //replaces {messageId} with the value
+				 .build();
+		return uri.toString();
+	}
+
+
 	private String getUriForProfile(UriInfo uriInfo, Message message) {
-		URI uri = uriInfo.getBaseUriBuilder()
-						 .path(ProfileResource.class)
-						 .path(message.getAuthor())
+		URI uri = uriInfo.getBaseUriBuilder() // -> http://localhost:8080/MessengerApp/webapi/
+						 .path(ProfileResource.class) // ->profiles
+						 .path(message.getAuthor()) //-> {authorName} - retrieved from Message bean
 						 .build();
 		return uri.toString();
 	}
 
 
 	private String getUriForSelf(UriInfo uriInfo, Message message) {
-		String uri = uriInfo.getBaseUriBuilder()
-						.path(MessageResource.class) //This will be @Path annotation value at class level!!
-						.path(Long.toString(message.getId()))
+		String uri = uriInfo.getBaseUriBuilder()  // -> http://localhost:8080/MessengerApp/webapi/
+						.path(MessageResource.class) //This will be @Path annotation value at class level!! -> /messages
+						.path(Long.toString(message.getId())) //{messageId}
 						.build()
 						.toString();
 		return uri;
