@@ -23,7 +23,7 @@ import edu.sraikar.messengerapp.service.MessageService;
 
 @Path("/messages")
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces(value = {MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+@Produces(MediaType.APPLICATION_JSON)
 public class MessageResource {
 
 	MessageService service = new MessageService();
@@ -60,7 +60,9 @@ public class MessageResource {
 
 	//New method for getMessage to illustrate BeanParam annotations
 	@GET
-	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Message> getJsonMessages(@BeanParam MessageFilterBean filterBean) {
+		System.out.println("JSON Message called");
 		if (filterBean.getYear() > 0) {
 			return service.getAllMessagesForYear(filterBean.getYear());
 		}
@@ -70,6 +72,18 @@ public class MessageResource {
 		return service.getAllMessages();
 	}
 	
+	@GET
+	@Produces(MediaType.TEXT_XML)
+	public List<Message> getXmlMessages(@BeanParam MessageFilterBean filterBean) {
+		System.out.println("XML Message called");
+		if (filterBean.getYear() > 0) {
+			return service.getAllMessagesForYear(filterBean.getYear());
+		}
+		if (filterBean.getStart() >= 0 && filterBean.getSize() > 0) {
+			return service.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
+		}
+		return service.getAllMessages();
+	}
 	
 	/*@GET
 	@Path("/{messageId}")
